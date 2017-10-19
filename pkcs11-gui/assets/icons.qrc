@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="unlock">unlock.svg</file>
+        <file alias="lock">lock.svg</file>
+        <file alias="pub_key">pub_key.svg</file>
+        <file alias="priv_key">priv_key.svg</file>
+        <file alias="certificate">certificate.svg</file>
+        <file alias="smartcard">smartcard.svg</file>
+        <file alias="change_pin">change_pin.png</file>
+        <file alias="refresh">refresh.svg</file>
+        <file alias="import">import.png</file>
+        <file alias="settings">settings.svg</file>
+        <file alias="trash">trash.svg</file>
+        <file alias="save">save.svg</file>
+        <file alias="keypair">keypairs.svg</file>
+    </qresource>
+</RCC>
