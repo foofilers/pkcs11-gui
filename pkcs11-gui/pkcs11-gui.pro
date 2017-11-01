@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -37,9 +37,11 @@ SOURCES += \
     src/p11errors.cpp \
     src/util.cpp \
     src/changepindialog.cpp \
-    src/keypairgeneratordialog.cpp
+    src/keypairgeneratordialog.cpp \
+    src/settingsdialog.cpp \
+    src/licensedialog.cpp
 
-HEADERS += \    
+HEADERS += \
     inc/mainwindow.h \
     inc/p11core.h \
     inc/smartcard.h \
@@ -57,14 +59,18 @@ HEADERS += \
     inc/p11errors.h \
     inc/util.h \
     inc/changepindialog.h \
-    inc/keypairgeneratordialog.h
+    inc/keypairgeneratordialog.h \
+    inc/settingsdialog.h \
+    inc/licensedialog.h
 
 FORMS += \
         ui/mainwindow.ui \
     ui/askpindialog.ui \
     ui/importp12dialog.ui \
     ui/changepindialog.ui \
-    ui/keypairgeneratordialog.ui
+    ui/keypairgeneratordialog.ui \
+    ui/settingsdialog.ui \
+    ui/licensedialog.ui
 
 
 

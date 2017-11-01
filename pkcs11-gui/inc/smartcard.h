@@ -42,7 +42,7 @@ public:
     Either<QString,QList<Certificate*>> getCertificates();
     Either<QString, bool> storeP12(QString path, QString password, QString label, int id);
     Either<QString, bool> setPin(QString pin);
-    Either<QString, bool> generateKeyPairs(int id, QString label, unsigned long modulus);
+    Either<QString, bool> generateKeyPairs(int id, QString label, unsigned int modulus);
 signals:
 
 public slots:

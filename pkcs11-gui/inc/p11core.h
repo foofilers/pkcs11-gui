@@ -32,7 +32,7 @@ public:
      ~P11Core();
     Either<QString,QList<SmartCardReader*>> loadSmartCardReaders();
     QList<SmartCardReader*> getSmartCardReaders();
-    Either<QString,bool> init();
+    Either<QString,bool> init(QString driver);
 private:
     PKCS11_CTX *p11Context=NULL;
     QList<SmartCardReader*> slotList;

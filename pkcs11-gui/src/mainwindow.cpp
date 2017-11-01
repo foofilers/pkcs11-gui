@@ -18,6 +18,8 @@
 #include "ui_mainwindow.h"
 #include "changepindialog.h"
 #include "keypairgeneratordialog.h"
+#include "settingsdialog.h"
+#include <licensedialog.h>
 
 #include <QDebug>
 #include <QMessageBox>
@@ -25,21 +27,30 @@
 #include <QInputDialog>
 #include <QDir>
 
+#include <raneservice.h>
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     ui=new Ui::MainWindow();
 
     ui->setupUi(this);
-    this->p11Core = new P11Core(this);
-
-    this->p11Core->init().leftMap([this](auto error){
-        QMessageBox::critical(this,tr("initialization error"),error);
-        return 0;
-    });
 
     userAskPwdDlg = new AskPINDialog(this);
     soAskPwdDlg = new AskPINDialog(this);
     importP12Dialog = new ImportP12Dialog(this,&(this->currentSmartCardReader));
     auto keyPairDialog = new KeyPairGeneratorDialog(this);
+    LicenseDialog *licenseDlg = new LicenseDialog(this);
+
+    this->refreshDrivers();
+
+    connect (ui->actionAbout_QT,&QAction::triggered,[this](){
+        QApplication::aboutQt();
+    });
+
+    connect (ui->actionLicense,&QAction::triggered,[this,licenseDlg](){
+        licenseDlg->show();
+    });
+
+    connect (ui->connectBtn,SIGNAL(clicked()),this,SLOT(initialize()));
 
     connect(ui->cmbReader,SIGNAL(currentIndexChanged(int)),this,SLOT(readerChanged(int)));
 
@@ -50,6 +61,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     connect(soAskPwdDlg,SIGNAL(passwordInserted(QString)),this,SLOT(soLogin(QString)));
 
     connect(ui->actionRefresh,SIGNAL(triggered()),this,SLOT(refresh()));
+
+    connect (ui->actionSettings,&QAction::triggered,[this](auto){
+       SettingsDialog* dlg = new SettingsDialog(this);
+       dlg->exec();
+       if (this->p11Core==nullptr){
+           this->refreshDrivers();
+       }
+    });
 
     connect(ui->actionImport_p12,&QAction::triggered,[this](){
         if (this->currentSmartCardReader!=nullptr && this->currentSmartCardReader->isLogged()){
@@ -76,9 +95,36 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     connect (ui->deleteBtn,SIGNAL(clicked()),this,SLOT(deleteElement()));
     connect (ui->actionchangePin,SIGNAL(triggered()),this,SLOT(changePin()));
     connect (ui->saveBtn,SIGNAL(clicked()),this,SLOT(saveElement()));
+    this->refreshDrivers();
+}
 
-    this->refreshReaders();
+void MainWindow::refreshDrivers(){
+    ui->driverCmb->clear();
+    QStringList drivers = this->settings.value("drivers").toStringList();
+    ui->driverCmb->addItems(drivers);
+}
 
+void MainWindow::initialize(){
+    if (!ui->driverCmb->currentText().isEmpty()){
+        this->p11Core = new P11Core(this);
+
+        this->p11Core->init(ui->driverCmb->currentText()).rightMap([this](auto){
+            this->ui->cmbReader->setEnabled(true);
+            this->ui->connectBtn->setEnabled(false);
+            this->ui->driverCmb->setEnabled(false);
+            ui->userLoginBtn->setEnabled(true);
+            ui->soLoginBtn->setEnabled(true);
+            ui->actionchangePin->setEnabled(true);
+            ui->actiongenerateKeyPair->setEnabled(true);
+            ui->actionImport_p12->setEnabled(true);
+            this->refreshReaders();
+            return 0;
+        }).leftMap([this](auto error){
+            QMessageBox::critical(this,tr("initialization error"), error);
+            this->p11Core=nullptr;
+            return 0;
+        });
+    }
 }
 
 void MainWindow::refreshReaders(){
@@ -148,7 +194,6 @@ void MainWindow::refresh(){
         refreshPublicKeys();
         refreshCertificates();
         if(this->currentSmartCardReader->isLogged()){
-            qDebug()<<"auto refresh private key";
             loadPrivateKeys();
         }
     }

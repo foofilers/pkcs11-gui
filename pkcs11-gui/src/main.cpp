@@ -20,11 +20,13 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-
+    QApplication app(argc, argv);
+    QApplication::setOrganizationName("n3wtron");
+    QApplication::setApplicationName("pkcs11-gui");
+    QApplication::setApplicationVersion("1.0.0");
 
     MainWindow w;
     w.show();
 
-    return a.exec();
+    return app.exec();
 }

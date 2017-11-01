@@ -153,9 +153,9 @@ Either<QString,bool> SmartCard::storeP12(QString path, QString password,QString 
     return ret::rightOf(true);
 }
 
-Either<QString,bool> SmartCard::generateKeyPairs(int id, QString label, unsigned long modulus){
+Either<QString,bool> SmartCard::generateKeyPairs(int id, QString label, unsigned int modulus){
     using ret = Either<QString,bool>;
-    if (PKCS11_generate_key(this->token,label.toLatin1().data(),parseId(id),getIdLength(id),modulus)){
+    if (PKCS11_generate_key(this->token,0,modulus,label.toLatin1().data(),parseId(id),getIdLength(id))){
         return ret::leftOf(tr("Cannot generate key pairs:%1").arg(P11Error::getOpensslLastError().getErrorMessage()));
     }
     return ret::rightOf(true);

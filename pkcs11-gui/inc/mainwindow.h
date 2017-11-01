@@ -21,6 +21,7 @@
 #include <neither/either.hpp>
 #include <p11core.h>
 #include <QTableWidgetItem>
+#include <QSettings>
 #include "askpindialog.h"
 #include "importp12dialog.h"
 
@@ -50,15 +51,18 @@ public slots:
     void logout();
     void saveElement();
     void generateKeyPairs(int, QString, long);
+    void refreshDrivers();
+    void initialize();
 private:
     Ui::MainWindow *ui;
-    P11Core *p11Core;
+    P11Core *p11Core=nullptr;
     SmartCardReader *currentSmartCardReader;
     SmartCard *currentSmartCard;
     QVariant selectedElement;
     AskPINDialog* userAskPwdDlg;
     AskPINDialog* soAskPwdDlg;
     ImportP12Dialog *importP12Dialog;
+    QSettings settings;
     void lockWithMessage(QString message, bool waitingCursor=true);
     void unlockWithMessage(QString message, bool restoreCursor=true);
 };

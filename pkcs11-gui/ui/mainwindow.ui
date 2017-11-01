@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>775</width>
-    <height>569</height>
+    <width>1071</width>
+    <height>562</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0" colspan="2">
+    <item row="0" column="0">
      <widget class="QFrame" name="frame">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -30,6 +30,9 @@
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="2">
         <widget class="QToolButton" name="soLoginBtn">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>SO Login</string>
          </property>
@@ -51,19 +54,51 @@
        <item row="0" column="0">
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Reader</string>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,4,1">
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Driver</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="driverCmb"/>
+           </item>
+           <item>
+            <widget class="QToolButton" name="connectBtn">
+             <property name="text">
+              <string>Connect</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QComboBox" name="cmbReader"/>
+          <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,5">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Reader</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cmbReader">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>
        <item row="0" column="1">
         <widget class="QToolButton" name="userLoginBtn">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>User Login</string>
          </property>
@@ -152,6 +187,9 @@
            </item>
            <item row="0" column="1">
             <widget class="QToolButton" name="saveBtn">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Save</string>
              </property>
@@ -180,6 +218,12 @@
    </layout>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -199,7 +243,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>775</width>
+     <width>1071</width>
      <height>19</height>
     </rect>
    </property>
@@ -207,10 +251,23 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="action_Exit"/>
+   </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionAbout_QT"/>
+    <addaction name="actionLicense"/>
    </widget>
    <addaction name="menu_File"/>
+   <addaction name="menu_Help"/>
   </widget>
   <action name="actionImport_p12">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../assets/icons.qrc">
      <normaloff>:/icons/import</normaloff>:/icons/import</iconset>
@@ -228,12 +285,10 @@
     <string>Refresh</string>
    </property>
   </action>
-  <action name="actiondeleteKey">
-   <property name="text">
-    <string>deleteKey</string>
-   </property>
-  </action>
   <action name="actionchangePin">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../assets/icons.qrc">
      <normaloff>:/icons/change_pin</normaloff>:/icons/change_pin</iconset>
@@ -252,6 +307,9 @@
    </property>
   </action>
   <action name="actiongenerateKeyPair">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../assets/icons.qrc">
      <normaloff>:/icons/keypair</normaloff>:/icons/keypair</iconset>
@@ -260,10 +318,42 @@
     <string>generateKeyPair</string>
    </property>
   </action>
+  <action name="action_Exit">
+   <property name="text">
+    <string>&amp;Exit</string>
+   </property>
+  </action>
+  <action name="actionAbout_QT">
+   <property name="text">
+    <string>About QT</string>
+   </property>
+  </action>
+  <action name="actionLicense">
+   <property name="text">
+    <string>License</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
   <include location="../assets/icons.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>action_Exit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>535</x>
+     <y>280</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

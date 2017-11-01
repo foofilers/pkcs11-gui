@@ -23,14 +23,14 @@ P11Core::P11Core(QObject* parent): QObject(parent){
 
 }
 
-Either<QString,bool> P11Core::init(){
+Either<QString,bool> P11Core::init(QString driver){
     using ret = Either<QString,bool>;
     OpenSSL_add_all_algorithms();
 
     this->p11Context = PKCS11_CTX_new();
 
     /* load pkcs #11 module */
-    int rc = PKCS11_CTX_load(this->p11Context, "/opt/dike6/libbit4xpki.so");
+    int rc = PKCS11_CTX_load(this->p11Context, driver.toLatin1().data());
     qDebug()<<"Initialization context rc:"<<rc;
 
     if (rc!=0){

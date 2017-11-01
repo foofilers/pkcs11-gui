@@ -64,12 +64,13 @@ void ImportP12Dialog::importP12(){
                 QMessageBox::critical(this,tr("Import Private Key"),result.leftValue);
             }else{
                 emit(this->imported());
-
+                this->close();
             }
         }
     }
     QApplication::restoreOverrideCursor();
     this->setEnabled(true);
+
 }
 
 
