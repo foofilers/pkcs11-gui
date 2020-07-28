@@ -27,7 +27,6 @@
 #include <QInputDialog>
 #include <QDir>
 
-#include <raneservice.h>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     ui=new Ui::MainWindow();

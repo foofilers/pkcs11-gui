@@ -80,7 +80,7 @@ RESOURCES += \
     assets/icons.qrc
 
 
-unix:!macx: LIBS += -L$$PWD/../libp11/lib/ -lp11
+unix:!macx: LIBS += -L$$PWD/../libp11/lib/lib/ -lp11
 
-INCLUDEPATH += $$PWD/../libp11/include
-DEPENDPATH += $$PWD/../libp11/include
+INCLUDEPATH += $$PWD/../libp11/lib/include
+DEPENDPATH += $$PWD/../libp11/lib/include

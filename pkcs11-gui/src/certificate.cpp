@@ -63,9 +63,10 @@ Either<QString,QString> Certificate::getDetails(){
         BIO_free(bioMem);
         return ret::leftOf(tr("Cannot print Certificate detail:%1").arg(P11Error::getOpensslLastError().getErrorMessage()));
     }
-    char* certDetail = (char *) malloc(bioMem->num_write + 1);
-    memset(certDetail, 0, bioMem->num_write + 1);
-    BIO_read(bioMem, certDetail, bioMem->num_write);
+    uint64_t bioSize=BIO_number_written(bioMem);
+    char* certDetail = (char *) malloc(bioSize + 1);
+    memset(certDetail, 0, bioSize + 1);
+    BIO_read(bioMem, certDetail, bioSize);
     BIO_free(bioMem);
     QString result = QString(certDetail);
     free(certDetail);
