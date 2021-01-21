@@ -4,13 +4,14 @@ A smartcard manager (using libp11 library)
 # Development
 ## sync git submodule
 ```bash
-$> git submodule update 
+$> git submodule update --init #first time only
+$> git submodule update
 ```
 ## compile & install libp11
 ```bash
 $> cd libp11
 $> ./bootstrap
-$> ./configure --prefix=$PWD/lib
+$> ./configure --prefix=/usr/
 $> make
 $> sudo make install
 ```
